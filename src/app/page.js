@@ -1,282 +1,531 @@
-
-'use client'
+"use client";
+import "@radix-ui/themes/styles.css";
 import Script from "next/script";
-import styles from "./globals.css";
-import 'dotenv'
-import { sendResponse } from "next/dist/server/image-optimizer";
-import 'react'
-import { SubmitResults } from "./actions/googlesheets.action"
+import "@/app/globals.css";
+
+import {
+	Theme,
+	Tabs,
+	Box,
+	Container,
+	TextField,
+	Select,
+	Button,
+	Switch,
+	Flex,
+	TextArea,
+} from "@radix-ui/themes";
+
+import "dotenv";
+import "react";
+import { SubmitResults } from "./actions/googlesheets.action";
 
 export default function Home() {
+	const sendResults = async () => {
+		const response = SubmitResults();
+		console.log(response);
+	};
 
-    const sendResults = async () => {
-        const response = SubmitResults()
-        console.log(response)
-     }
-
-
-  return (
-<main>
-
-
-    <meta charSet="UTF-8"/>
-    <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    {/* <script src="./button.js"></script>
+	return (
+		<html>
+			<body>
+				<meta charSet="UTF-8" />
+				<meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				{/* <script src="./button.js"></script>
     <script src="./index.js" defer type="module"></script> */}
-     {/* <script src="../index.js" defer></script>  */}
-    {/* <script src="https://scout-2220.vercel.app/index.js"></script> */}
-        <Script src='https://test2220.github.io/button.js' strategy="beforeInteractive" />
-          <Script type="module" src="https://test2220.github.io/main.js" defer strategy="beforeInteractive" />
-        
-    <title>Scouter</title>
-    {/* <!-- <scripts src="./qr.js"></script> --> */}
-    <Script src="https://test2220.github.io/qr.js" strategy="beforeInteractive" />
-    {/* <!-- <link rel="manifest" href="https://scout-2220.vercel.app/manifest.json" /> --> */}
+				{/* <script src="../index.js" defer></script>  */}
+				{/* <script src="https://scout-2220.vercel.app/index.js"></script> */}
+				<Script
+					src="https://test2220.github.io/button.js"
+					strategy="beforeInteractive"
+				/>
+				<Script
+					type="module"
+					src="https://test2220.github.io/main.js"
+					defer
+					strategy="beforeInteractive"
+				/>
 
-    {/* <!-- <div className="progress-container">
-            <div className="progress-bar" id="myBar"></div>
-        </div> --> */}
-    {/* <!-- 
-        <script>
-            if ("serviceWorker" in navigator) {
-                // If yes, we register the service worker
-                navigator.serviceWorker.register("sw.js");
-              }
-            </script>
-             --> */}
-        <h1>Scouter</h1>
-        <div className="scouter">
+				<title>Scouter</title>
+				<h1>Scouter</h1>
+				<div className="scouter">
+					<Theme>
+						<Box>
+							<Container maxWidth="530px">
+								<Tabs.Root defaultValue="start">
+									<Tabs.List color="blue" size="2">
+										<Tabs.Trigger value="start">Start</Tabs.Trigger>
+										<Tabs.Trigger value="auto">Auto</Tabs.Trigger>
+										<Tabs.Trigger value="teleop">Teleop</Tabs.Trigger>
+										<Tabs.Trigger value="endgame">End Game</Tabs.Trigger>
+										<Tabs.Trigger value="postmatch">Postmatch</Tabs.Trigger>
+										<Tabs.Trigger value="notes">Notes</Tabs.Trigger>
+										<Tabs.Trigger value="submit">Submit</Tabs.Trigger>
+									</Tabs.List>
 
-            <div>
-                <button type="button" className="collapsible">Pre-Match ▼</button>
-                <div className="section">
+									<Tabs.Content value="start">
+										<h2>Match #</h2>
 
-                    <h2>Match #</h2>
+										<div>
+											<TextField.Root
+												id="TextField"
+												radius="large"
+												size="3"
+												placeholder="000"
+												name="match number"
+											>
+												<TextField.Slot id="TextFieldSlot"></TextField.Slot>
+											</TextField.Root>
+										</div>
+										<h2>Scouter Initials</h2>
+										<div>
+											<TextField.Root
+												id="TextField"
+												radius="large"
+												size="3"
+												placeholder="ABC"
+												name="scouter initials"
+											>
+												<TextField.Slot id="TextFieldSlot"></TextField.Slot>
+											</TextField.Root>
+										</div>
 
-                    <div>
-                        <input placeholder="000" name="match number" title="Match #" maxLength='3' id="Match number"/>
-                    </div>
-                    <h2>Scouter Initials</h2>
-                    <div>
-                        <input placeholder="ASP" name="scouter_initials" title="Scouter Initials" maxLength='3'
-                            id="scouterInitials"/>
-                    </div>
+										<h2>Team #</h2>
+										<div>
+											<TextField.Root
+												id="TextField"
+												radius="large"
+												size="3"
+												placeholder="0000"
+												name="team number"
+											>
+												<TextField.Slot id="TextFieldSlot"></TextField.Slot>
+											</TextField.Root>
+										</div>
+									</Tabs.Content>
 
-                    <h2>Team #</h2>
-                    <div>
-                        <input placeholder="0000" name="team_number" title="Team #" maxLength='4' id="teamNumber"/>
+									<Tabs.Content value="auto">
+										<div>
+											<h2>Starting position</h2>
+											<Select.Root defaultValue="Select" id="Dropdown">
+												<Select.Trigger />
+												<Select.Content id="DropdownContent">
+													<Select.Group>
+														<Select.Label>Choose</Select.Label>
+														<Select.Item value="Select">Select</Select.Item>
+														<Select.Item value="In front of speaker">
+															In front of speaker
+														</Select.Item>
+														<Select.Item value="Next to amp">
+															Next to amp
+														</Select.Item>
+														<Select.Item value="Next to source">
+															Next to source
+														</Select.Item>
+													</Select.Group>
+												</Select.Content>
+											</Select.Root>
+										</div>
+										<div>
+											<h2>Speaker notes scored</h2>
+											<Flex className="Manipulated">
+												<Box>
+													<Button
+														className="minus"
+														color="blue"
+														id="plus"
+														name="speakerNotesScoredAuto"
+														size="4"
+														radius="full"
+													>
+														-
+													</Button>
+												</Box>
+												<Box maxWidth="250px">
+													<TextField.Root
+														id="TextField"
+														className="TextField"
+														radius="large"
+														size="3"
+														placeholder="00"
+														name="auto speaker notes scored"
+													>
+														<TextField.Slot
+															className="TextField"
+															id="TextFieldSlot"
+														></TextField.Slot>
+													</TextField.Root>
+												</Box>
+												<Box>
+													<Button
+														className="plus"
+														color="blue"
+														id="plus"
+														name="speakerNotesScoredAuto"
+														size="4"
+														radius="full"
+													>
+														+
+													</Button>
+												</Box>
+											</Flex>
+										</div>
+										<div>
+											<div>
+												<h2>AMP notes scored</h2>
+												<Flex className="Manipulated">
+													<Box>
+														<Button
+															className="minus"
+															color="blue"
+															id="plus"
+															name="ampNotesScoredAuto"
+															size="4"
+															radius="full"
+														>
+															-
+														</Button>
+													</Box>
+													<Box maxWidth="250px">
+														<TextField.Root
+															id="TextField"
+															radius="large"
+															size="3"
+															placeholder="00"
+															name="auto amp notes scored"
+														>
+															<TextField.Slot
+																className="TextField"
+																id="TextFieldSlot"
+															></TextField.Slot>
+														</TextField.Root>
+													</Box>
+													<Box>
+														<Button
+															className="plus"
+															color="blue"
+															id="plus"
+															name="ampNotesScoredAuto"
+															size="4"
+															radius="full"
+														>
+															+
+														</Button>
+													</Box>
+												</Flex>
+											</div>
+											<div>
+												<div>
+													<h2>Left starting area</h2>
+													<Switch
+														id="Switch"
+														size="3"
+														color="blue"
+														radius="small"
+													></Switch>
+												</div>
+											</div>
+										</div>
+									</Tabs.Content>
 
-                    </div>
-                </div>
-            </div>
+									<Tabs.Content value="teleop">
+										<div>
+											<h2>Speaker notes scored</h2>
+											<Flex className="Manipulated">
+												<Box>
+													<Button
+														className="minus"
+														color="blue"
+														id="plus"
+														name="speakerNotesScoredTeleop"
+														size="4"
+														radius="full"
+													>
+														-
+													</Button>
+												</Box>
+												<Box maxWidth="250px">
+													<TextField.Root
+														id="TextField"
+														radius="large"
+														size="3"
+														placeholder="00"
+														name="teleop speaker notes scored"
+													>
+														<TextField.Slot
+															className="TextField"
+															id="TextFieldSlot"
+														></TextField.Slot>
+													</TextField.Root>
+												</Box>
+												<Box>
+													<Button
+														className="plus"
+														color="blue"
+														id="plus"
+														name="speakerNotesScoredTeleop"
+														size="4"
+														radius="full"
+													>
+														+
+													</Button>
+												</Box>
+											</Flex>
+										</div>
+										<div>
+											<h2>AMP notes scored</h2>
+											<Flex className="Manipulated">
+												<Box>
+													<Button
+														className="minus"
+														color="blue"
+														id="plus"
+														name="ampNotesScoredTeleop"
+														size="4"
+														radius="full"
+													>
+														-
+													</Button>
+												</Box>
+												<Box maxWidth="250px">
+													<TextField.Root
+														id="TextField"
+														radius="large"
+														size="3"
+														placeholder="00"
+														name="teleop amp notes scored"
+													>
+														<TextField.Slot
+															className="TextField"
+															id="TextFieldSlot"
+														></TextField.Slot>
+													</TextField.Root>
+												</Box>
+												<Box>
+													<Button
+														className="plus"
+														color="blue"
+														id="plus"
+														name="ampNotesScoredTeleop"
+														size="4"
+														radius="full"
+													>
+														+
+													</Button>
+												</Box>
+											</Flex>
+										</div>
+										<h2>Note Pickup Location</h2>
+										<Select.Root defaultValue="Select" id="Dropdown">
+											<Select.Trigger />
+											<Select.Content id="DropdownContent">
+												<Select.Item value="Select">Select</Select.Item>
+												<Select.Item value="Not observed">
+													Not observed
+												</Select.Item>
+												<Select.Item value="None">None</Select.Item>
+												<Select.Item value="Ground">Ground</Select.Item>
+												<Select.Item value="Source">Source</Select.Item>
+												<Select.Item value="Ground + Source">
+													Ground + Source
+												</Select.Item>
+											</Select.Content>
+										</Select.Root>
+									</Tabs.Content>
 
+									<Tabs.Content value="endgame">
+										<h2>Trap note scored</h2>
+										<Select.Root defaultValue="Select" id="Dropdown">
+											<Select.Trigger />
 
-            <div>
-                <button type="button" className="collapsible">Autonomous ▼</button>
-                <div className="section">
-                    <div>
-                        <h2>Starting position</h2>
-                        <label htmlFor="startingPosition">Starting position</label>
+											<Select.Content id="DropdownContent">
+												<Select.Group>
+													<Select.Label>Choose</Select.Label>
+													<Select.Item value="Select">Select</Select.Item>
+													<Select.Item value="0">0</Select.Item>
+													<Select.Item value="1">1</Select.Item>
+													<Select.Item value="2">2</Select.Item>
+													<Select.Item value="3">3</Select.Item>
+												</Select.Group>
+											</Select.Content>
+										</Select.Root>
+										<h2>End Position</h2>
+										<Select.Root defaultValue="Select" id="Dropdown">
+											<Select.Trigger />
+											<Select.Content id="DropdownContent">
+												<Select.Group>
+													<Select.Label>Choose</Select.Label>
+													<Select.Item value="Select">Select</Select.Item>
+													<Select.Item value="notObserved">
+														Not observed
+													</Select.Item>
+													<Select.Item value="noClimb">No climb</Select.Item>
+													<Select.Item value="parked">Parked</Select.Item>
+													<Select.Item value="onStage">On stage</Select.Item>
+													<Select.Item value="spotlit">Spotlit</Select.Item>
+												</Select.Group>
+											</Select.Content>
+										</Select.Root>
+										<div>
+											<h2>Contributed to harmony</h2>
+											<Switch
+												id="Switch"
+												size="3"
+												color="blue"
+												radius="small"
+											></Switch>
+										</div>
 
-                        <select name="startingPosition" id="startingPosition">
-                            <option  defaultValue="Select" >Select</option>
-                            <option  defaultValue="In front of speaker">In front of speaker</option>
-                            <option  defaultValue="On amp side">On side of amp</option>
-                            <option  defaultValue="On source side">On side of source</option>
-                        </select>
-                    </div>
-                    <div>
-                        <h2>Speaker notes scored</h2>
-                        <button id="minus" name="speakerNotesScoredAuto">-</button>
-                        <input  defaultValue="0" id="speakerNotesScoredAuto"></input>
-                        <button id="plus" name="speakerNotesScoredAuto">+</button>
-                    </div>
-                    <div>
-                        <div>
-                            <h2>AMP notes scored</h2>
-                            <button id="minus" name="ampNotesScoredAuto">-</button>
-                            <input  defaultValue="0" id="ampNotesScoredAuto"></input>
-                            <button id="plus" name="ampNotesScoredAuto">+</button>
-                        </div>
-                        <div>
-                            <div>
-                                <h2>Left starting area</h2>
-                                <label htmlFor="leftStartingArea">Left starting area</label>
+										<div>
+											<h2>High note scored on mic</h2>
+											<Select.Root defaultValue="Select" id="Dropdown">
+												<Select.Trigger />
+												<Select.Content id="DropdownContent">
+													<Select.Group>
+														<Select.Label>Choose</Select.Label>
+														<Select.Item value="Select">Select</Select.Item>
+														<Select.Item value="0">0</Select.Item>
+														<Select.Item value="1">1</Select.Item>
+														<Select.Item value="2">2</Select.Item>
+														<Select.Item value="3">3</Select.Item>
+													</Select.Group>
+												</Select.Content>
+											</Select.Root>
+										</div>
+									</Tabs.Content>
 
-                                <select name="leftStartingArea" id="leftStartingArea">
-                                    <option  defaultValue="Select yes/no">Select yes/no</option>
-                                    <option  defaultValue="Yes">Yes</option>
-                                    <option  defaultValue="No">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+									<Tabs.Content value="postmatch">
+										<div>
+											<h2>Yellow card</h2>
+											<Switch
+												id="Switch"
+												size="3"
+												color="blue"
+												radius="small"
+											></Switch>
+										</div>
+										<div>
+											<h2>Red card</h2>
+											<Switch
+												id="Switch"
+												size="3"
+												color="blue"
+												radius="small"
+											></Switch>
+										</div>
+										<h2>Offense skill</h2>
+										<Select.Root defaultValue="Select" id="Dropdown">
+											<Select.Trigger />
+											<Select.Content id="DropdownContent">
+												<Select.Group>
+													<Select.Label>Choose</Select.Label>
+													<Select.Item value="Select">Select</Select.Item>
+													<Select.Item value="Not observed">
+														Not observed
+													</Select.Item>
+													<Select.Item value="Bad">Bad</Select.Item>
+													<Select.Item value="Mid">Mid</Select.Item>
+													<Select.Item value="Good">Good</Select.Item>
+												</Select.Group>
+											</Select.Content>
+										</Select.Root>
+										<h2>Defense skill</h2>
+										<Select.Root defaultValue="Select" id="Dropdown">
+											<Select.Trigger />
+											<Select.Content id="DropdownContent">
+												<Select.Group>
+													<Select.Label>Choose</Select.Label>
+													<Select.Item value="Select">Select</Select.Item>
+													<Select.Item value="Not observed">
+														Not observed
+													</Select.Item>
+													<Select.Item value="Bad">Bad</Select.Item>
+													<Select.Item value="Mid">Mid</Select.Item>
+													<Select.Item value="Good">Good</Select.Item>
+												</Select.Group>
+											</Select.Content>
+										</Select.Root>
+										<div>
+											<div>
+												<h2>Died or disconnected</h2>
+												<Switch
+													id="Switch"
+													size="3"
+													color="blue"
+													radius="small"
+												></Switch>
+											</div>
+										</div>
+										<div>
+											<h2>Tipped over</h2>
+											<Switch
+												id="Switch"
+												size="3"
+												color="blue"
+												radius="small"
+											></Switch>
+										</div>
+									</Tabs.Content>
 
-            <div>
-                <button type="button" className="collapsible">Teleop ▼</button>
-                <div className="section">
-                    <div>
-                        <h2>Speaker notes scored</h2>
-                        <button id="minus" name="speakerNotesScoredTeleop">-</button>
-                        <input  defaultValue="0" id="speakerNotesScoredTeleop"></input>
-                        <button id="plus" name="speakerNotesScoredTeleop">+</button>
-                    </div>
-                    <div>
-                        <h2>AMP notes scored</h2>
-                        <button id="minus" name="ampNotesScoredTeleop">-</button>
-                        <input  defaultValue="0" id="ampNotesScoredTeleop"></input>
-                        <button id="plus" name="ampNotesScoredTeleop">+</button>
-                    </div>
-                    <h2>Note Pickup Location</h2>
-                    <label htmlFor="notePickupLocation">Note Pickup Location</label>
+									<Tabs.Content value="notes">
+										<h2>Additional Notes</h2>
+										<TextArea
+											name="Notes"
+											id="Notes"
+											placeholder="Type any additional notes here"
+											size="3"
+											variant="soft"
+											radius="large"
+											resize='vertical'
+											rows='10'
+										></TextArea>
+									</Tabs.Content>
 
-                    <select name="notePickupLocation" id="notePickupLocation">
-                        <option  defaultValue="Not observed" >Not observed</option>
-                        <option  defaultValue="none">None</option>
-                        <option  defaultValue="ground">Ground</option>
-                        <option  defaultValue="source">Source</option>
-                        <option  defaultValue="ground & source">ground & source</option>
-                    </select>
-                </div>
-            </div>
+									<Tabs.Content value="submit">
+										<h2>Submit</h2>
+										<div className="EndButton">
+											<Button
+										
+												radius="full"
+												size="4"
+												color="blue"
+												id="endOfForm"
+												onClick={sendResults}
+											>
+												Submit
+											</Button>
+											<h3>
+											TO DO:
+											This area lets you know the status of results.
+											The options are: saved to device, data sent, or sending saved results. 
+											There will also be a progress bar that appeares to let you know the
+											progress of these actions.
+										</h3>
 
-            <div>
-                <button type="button" className="collapsible">Endgame ▼</button>
-                <div className="section">
-                    <h2>Trap note scored</h2>
-                    <label htmlFor="trapNoteScored">Trap note scored</label>
+										</div>
+									
+										<div className="EndButton">
+											<Button
 
-                    <select name="trapNoteScored" id="trapNoteScored">
-                        <option  defaultValue="Select 0,1,2,3" >Select 0,1,2,3</option>
-                        <option  defaultValue="0">0</option>
-                        <option  defaultValue="1">1</option>
-                        <option  defaultValue="2">2</option>
-                        <option  defaultValue="3">3</option>
-                    </select>
-                    <h2>End Position</h2>
-                    <label htmlFor="endPosition">End Position</label>
+												radius="full"
+												size="4"
+												color="blue"
+												id="clearForm"
+											>
+												Clear form
+											</Button>
+											<h3>This button clears all entered results.</h3>
+										</div>
 
-                    <select name="endPosition" id="endPosition">
-                        <option  defaultValue="Not observed" >Not observed</option>
-                        <option  defaultValue="noClimb">No Climb</option>
-                        <option  defaultValue="parked">Parked</option>
-                        <option  defaultValue="onstage">Onstage</option>
-                        <option  defaultValue="spotlit">Spotlit</option>
-                    </select>
-                    <div>
-                        <h2>Contributed to harmony</h2>
-                        <label htmlFor="contributedToHarmony">Contributed to harmony</label>
-
-                        <select name="contributedToHarmony" id="contributedToHarmony">
-                            <option  defaultValue="Select yes/no" >Select yes/no</option>
-                            <option  defaultValue="Yes">Yes</option>
-                            <option  defaultValue="No">no</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <h2>High note scored on mic</h2>
-                        <label htmlFor="highNote">High note scored on mic</label>
-
-                        <select name="highNote" id="highNote">
-                            <option  defaultValue="Select 0,1,2,3" >Select 0,1,2,3</option>
-                            <option  defaultValue="0">0</option>
-                            <option  defaultValue="1">1</option>
-                            <option  defaultValue="2">2</option>
-                            <option  defaultValue="3">3</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button type="button" className="collapsible">Postmatch ▼</button>
-                <div className="section">
-                    <div>
-                        <h2>Yellow card</h2>
-                        <label htmlFor="yellowCard">Yellow card</label>
-
-                        <select name="notePickupLocation" id="yellowCard">
-                            <option  defaultValue="Select yes/no" >Select yes/no</option>
-                            <option  defaultValue="Yes">Yes</option>
-                            <option  defaultValue="No">No</option>
-                        </select>
-                    </div>
-                    <div>
-                        <h2>Red card</h2>
-                        <label htmlFor="redCard">Red card</label>
-
-                        <select name="redCard" id="redCard">
-                            <option  defaultValue="Select yes/no" >Select yes/no</option>
-                            <option  defaultValue="Yes">Yes</option>
-                            <option  defaultValue="No">No</option>
-                        </select>
-                    </div>
-                    <h2>Offense skill</h2>
-                    <label htmlFor="offenseSkill">Offense skill</label>
-
-                    <select name="offenseSkill" id="offenseSkill">
-                        <option  defaultValue="Not observed" >Not observed</option>
-                        <option  defaultValue="bad">Bad</option>
-                        <option  defaultValue="mid">Mid</option>
-                        <option  defaultValue="good">Good</option>
-                    </select>
-                    <h2>Defense skill</h2>
-                    <label htmlFor="defenseSkill">Defense skill</label>
-
-                    <select name="defenseSkill" id="defenseSkill">
-                        <option  defaultValue="Not observed" >Not observed</option>
-                        <option  defaultValue="bad">Bad</option>
-                        <option  defaultValue="mid">Mid</option>
-                        <option  defaultValue="good">Good</option>
-                    </select>
-                    <div>
-                        <div>
-                            <h2>Died or disconnected</h2>
-                            <label htmlFor="died">Died or disconnected</label>
-
-                            <select name="died" id="died">
-                                <option  defaultValue="Select yes/no" >Select yes/no</option>
-                                <option  defaultValue="Yes">Yes</option>
-                                <option  defaultValue="No">No</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <h2>Tipped over</h2>
-                        <label htmlFor="tippedOver">Tipped over</label>
-
-                        <select name="tippedOver" id="tippedOver">
-                            <option  defaultValue="Select yes/no" >Select yes/no</option>
-                            <option  defaultValue="Yes">Yes</option>
-                            <option  defaultValue="No">No</option>
-                        </select>
-
-                    </div>
-                </div>
-            </div>
-
-            <div>
-
-                <h2>Additional Notes</h2>
-                <textarea name="Notes" id="Notes" placeholder="Type any additional notes here"
-                    style={{fontSize:'35px', rows:'5', cols:'45'}}></textarea>
-
-                
-                  <div>
-                      <button id='endOfForm' onClick={sendResults}>Submit</button>
-                </div>
-
-                <div>
-                    <button id="clearForm">Clear form</button>
-                </div>
-                
-
-            </div>
-        </div>
-
-    </main>
-  );
+										<h3></h3>
+									</Tabs.Content>
+								</Tabs.Root>
+							</Container>
+						</Box>
+					</Theme>
+				</div>
+			</body>
+		</html>
+	);
 }
